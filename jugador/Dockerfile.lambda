@@ -2,11 +2,11 @@
 FROM public.ecr.aws/lambda/python:3.11
 
 # Copiar e instalar dependencias
-COPY requirements.txt .
+COPY jugador/requirements.txt .
 RUN pip install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
 # Copiar código del servicio
-COPY app ${LAMBDA_TASK_ROOT}/app
+COPY jugador/app ${LAMBDA_TASK_ROOT}/app
 
 # Copiar modelos y database compartidos
 COPY models ${LAMBDA_TASK_ROOT}/models
