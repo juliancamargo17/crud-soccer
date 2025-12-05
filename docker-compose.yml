@@ -1,0 +1,151 @@
+version: '3.8'
+
+services:
+  # --- Nginx como reverse proxy ---
+  nginx:
+    image: nginx:latest
+    container_name: soccer_nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - equipos
+      - estadios
+      - dts
+      - jugadores
+      - participaciones
+      - torneos
+      - postgres
+
+  # --- Base de datos PostgreSQL ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: soccer_db
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_123456
+    ports:
+      - "5432:5432"  
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Microservicio de Equipos ---
+  equipos:
+    build:
+      context: .
+      dockerfile: ./classEquipo/Dockerfile
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres_123456
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- Microservicio de Estadios ---
+  estadios:
+    build:
+      context: .
+      dockerfile: ./estadio/Dockerfile
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres_123456
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- Microservicio de DTs ---
+  dts:
+    build:
+      context: .
+      dockerfile: ./dt/Dockerfile
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres_123456
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- Microservicio de Jugadores ---
+  jugadores:
+    build:
+      context: .
+      dockerfile: ./jugador/Dockerfile
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres_123456
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- Microservicio de Participaciones ---
+  participaciones:
+    build:
+      context: .
+      dockerfile: ./participacion/Dockerfile
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres_123456
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- Microservicio de Torneos ---
+  torneos:
+    build:
+      context: .
+      dockerfile: ./torneo/Dockerfile
+    restart: always
+    expose:
+      - "8000"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres_123456
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local
