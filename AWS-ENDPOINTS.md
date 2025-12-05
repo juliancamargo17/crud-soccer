@@ -8,35 +8,35 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 
 ## 📍 AWS Lambda (Function URLs)
 
-### Equipos
-- **URL**: `https://[PENDING].lambda-url.us-east-1.on.aws/`
-- **Swagger**: `https://[PENDING].lambda-url.us-east-1.on.aws/docs`
-- **Health**: `https://[PENDING].lambda-url.us-east-1.on.aws/health`
+### Equipos ✅
+- **URL**: `https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/`
+- **Swagger**: `https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/docs`
+- **Health**: `https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/health`
 
-### Estadios
-- **URL**: `https://[PENDING].lambda-url.us-east-1.on.aws/`
-- **Swagger**: `https://[PENDING].lambda-url.us-east-1.on.aws/docs`
-- **Health**: `https://[PENDING].lambda-url.us-east-1.on.aws/health`
+### Estadios ✅
+- **URL**: `https://jxvduha7ri4b2sw7mf4hirs2ia0hykgs.lambda-url.us-east-1.on.aws/`
+- **Swagger**: `https://jxvduha7ri4b2sw7mf4hirs2ia0hykgs.lambda-url.us-east-1.on.aws/docs`
+- **Health**: `https://jxvduha7ri4b2sw7mf4hirs2ia0hykgs.lambda-url.us-east-1.on.aws/health`
 
-### DTs
-- **URL**: `https://[PENDING].lambda-url.us-east-1.on.aws/`
-- **Swagger**: `https://[PENDING].lambda-url.us-east-1.on.aws/docs`
-- **Health**: `https://[PENDING].lambda-url.us-east-1.on.aws/health`
+### DTs ✅
+- **URL**: `https://5n26ji6ftuvrxoljww2nr3q3by0bqbkl.lambda-url.us-east-1.on.aws/`
+- **Swagger**: `https://5n26ji6ftuvrxoljww2nr3q3by0bqbkl.lambda-url.us-east-1.on.aws/docs`
+- **Health**: `https://5n26ji6ftuvrxoljww2nr3q3by0bqbkl.lambda-url.us-east-1.on.aws/health`
 
-### Jugadores
-- **URL**: `https://[PENDING].lambda-url.us-east-1.on.aws/`
-- **Swagger**: `https://[PENDING].lambda-url.us-east-1.on.aws/docs`
-- **Health**: `https://[PENDING].lambda-url.us-east-1.on.aws/health`
+### Jugadores ✅
+- **URL**: `https://lxvf4z2bxs7gparrkaqotifk6q0ccvna.lambda-url.us-east-1.on.aws/`
+- **Swagger**: `https://lxvf4z2bxs7gparrkaqotifk6q0ccvna.lambda-url.us-east-1.on.aws/docs`
+- **Health**: `https://lxvf4z2bxs7gparrkaqotifk6q0ccvna.lambda-url.us-east-1.on.aws/health`
 
-### Participaciones
-- **URL**: `https://[PENDING].lambda-url.us-east-1.on.aws/`
-- **Swagger**: `https://[PENDING].lambda-url.us-east-1.on.aws/docs`
-- **Health**: `https://[PENDING].lambda-url.us-east-1.on.aws/health`
+### Participaciones ✅
+- **URL**: `https://iv3vwzolquk243pvthhfphgeta0dwjxq.lambda-url.us-east-1.on.aws/`
+- **Swagger**: `https://iv3vwzolquk243pvthhfphgeta0dwjxq.lambda-url.us-east-1.on.aws/docs`
+- **Health**: `https://iv3vwzolquk243pvthhfphgeta0dwjxq.lambda-url.us-east-1.on.aws/health`
 
-### Torneos
-- **URL**: `https://[PENDING].lambda-url.us-east-1.on.aws/`
-- **Swagger**: `https://[PENDING].lambda-url.us-east-1.on.aws/docs`
-- **Health**: `https://[PENDING].lambda-url.us-east-1.on.aws/health`
+### Torneos ✅
+- **URL**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/`
+- **Swagger**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/docs`
+- **Health**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/health`
 
 ---
 
