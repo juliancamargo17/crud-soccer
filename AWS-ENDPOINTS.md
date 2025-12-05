@@ -1,46 +1,46 @@
 # AWS Deployment Endpoints
 
-## 🌐 Servicios desplegados
+## Servicios desplegados
 
 Este documento contiene los endpoints de acceso a los microservicios del CRUD Soccer desplegados en AWS.
 
 ---
 
-## 📍 AWS Lambda (Function URLs)
+##  AWS Lambda (Function URLs)
 
-### Equipos ✅
+### Equipos 
 - **URL**: `https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/`
 - **Swagger**: `https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/health`
 
-### Estadios ✅
+### Estadios 
 - **URL**: `https://jxvduha7ri4b2sw7mf4hirs2ia0hykgs.lambda-url.us-east-1.on.aws/`
 - **Swagger**: `https://jxvduha7ri4b2sw7mf4hirs2ia0hykgs.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://jxvduha7ri4b2sw7mf4hirs2ia0hykgs.lambda-url.us-east-1.on.aws/health`
 
-### DTs ✅
+### DTs 
 - **URL**: `https://5n26ji6ftuvrxoljww2nr3q3by0bqbkl.lambda-url.us-east-1.on.aws/`
 - **Swagger**: `https://5n26ji6ftuvrxoljww2nr3q3by0bqbkl.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://5n26ji6ftuvrxoljww2nr3q3by0bqbkl.lambda-url.us-east-1.on.aws/health`
 
-### Jugadores ✅
+### Jugadores 
 - **URL**: `https://lxvf4z2bxs7gparrkaqotifk6q0ccvna.lambda-url.us-east-1.on.aws/`
 - **Swagger**: `https://lxvf4z2bxs7gparrkaqotifk6q0ccvna.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://lxvf4z2bxs7gparrkaqotifk6q0ccvna.lambda-url.us-east-1.on.aws/health`
 
-### Participaciones ✅
+### Participaciones 
 - **URL**: `https://iv3vwzolquk243pvthhfphgeta0dwjxq.lambda-url.us-east-1.on.aws/`
 - **Swagger**: `https://iv3vwzolquk243pvthhfphgeta0dwjxq.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://iv3vwzolquk243pvthhfphgeta0dwjxq.lambda-url.us-east-1.on.aws/health`
 
-### Torneos ✅
+### Torneos 
 - **URL**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/`
 - **Swagger**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/health`
 
 ---
 
-## 🚀 AWS Fargate (ECS Services)
+## AWS Fargate (ECS Services)
 
 ### Equipos
 - **URL**: `http://[IP-PENDING]:8000/`
@@ -59,29 +59,50 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 
 ---
 
-## 🗄️ Base de datos
+## Base de datos ✅
 
 ### Amazon RDS PostgreSQL
-- **Endpoint**: `[PENDING].us-east-1.rds.amazonaws.com`
+- **Endpoint**: `crud-soccer-db.c27m2g066462.us-east-1.rds.amazonaws.com`
 - **Puerto**: `5432`
-- **Database**: `postgres`
+- **Database**: `soccer_db`
 - **Usuario**: `postgres`
-- **Contraseña**: `[CONFIGURADO EN SECRETS]`
+- **Contraseña**: `[CONFIGURADO EN SECRETS - RDS2025!]`
+- **Estado**: Available (Free Tier - db.t3.micro)
 
 ---
 
-## 📦 Amazon ECR Repositories
+## Amazon ECR Repositories ✅
 
-- `[ACCOUNT_ID].dkr.ecr.us-east-1.amazonaws.com/soccer/equipos`
-- `[ACCOUNT_ID].dkr.ecr.us-east-1.amazonaws.com/soccer/estadios`
-- `[ACCOUNT_ID].dkr.ecr.us-east-1.amazonaws.com/soccer/dts`
-- `[ACCOUNT_ID].dkr.ecr.us-east-1.amazonaws.com/soccer/jugadores`
-- `[ACCOUNT_ID].dkr.ecr.us-east-1.amazonaws.com/soccer/participaciones`
-- `[ACCOUNT_ID].dkr.ecr.us-east-1.amazonaws.com/soccer/torneos`
+- `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/equipos-lambda:latest`
+- `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/estadios-lambda:latest`
+- `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/dts-lambda:latest`
+- `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/jugadores-lambda:latest`
+- `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/participaciones-lambda:latest`
+- `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/torneos-lambda:latest`
 
 ---
 
-## 🧪 Ejemplos de uso
+## GitHub Container Registry (GHCR) ✅
+
+**Imágenes Fargate (públicas):**
+- `ghcr.io/juliancamargo17/crud-soccer-equipos:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-estadios:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-dts:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-jugadores:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-participaciones:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-torneos:latest`
+
+**Imágenes Lambda (públicas):**
+- `ghcr.io/juliancamargo17/crud-soccer-equipos-lambda:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-estadios-lambda:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-dts-lambda:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-jugadores-lambda:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-participaciones-lambda:latest`
+- `ghcr.io/juliancamargo17/crud-soccer-torneos-lambda:latest`
+
+---
+
+## Ejemplos de uso
 
 ### Lambda - GET todos los equipos
 ```bash
@@ -143,7 +164,7 @@ Este archivo se actualizará después de completar el despliegue con las URLs e 
 
 ---
 
-## 📊 Arquitectura
+## Arquitectura
 
 ```
 GitHub Actions (CI/CD)
@@ -153,12 +174,12 @@ GitHub Actions (CI/CD)
     ┌──────────────┬─────────────┐
     ↓              ↓             ↓
 AWS Lambda    AWS Fargate    Amazon RDS
-(6 services)  (3 services)   (PostgreSQL)
+(6 services)  (6 services)   (PostgreSQL)
 ```
 
 ---
 
-## 📝 Notas
+## Notas
 
 - **Lambda**: Serverless, pago por uso, ideal para cargas esporádicas
 - **Fargate**: Contenedores persistentes, IPs pueden cambiar al reiniciar
@@ -168,4 +189,18 @@ AWS Lambda    AWS Fargate    Amazon RDS
 
 ---
 
-**Última actualización**: [PENDIENTE - Completar después del despliegue]
+## 💰 Costos del Deployment
+
+- **Lambda**: $0.00/mes (Free Tier - 1M requests)
+- **ECR**: $0.00/mes (480 MB < 500 MB Free Tier)
+- **GHCR**: $0.00/mes (ilimitado para públicos)
+- **RDS**: $0.00/mes (Free Tier - 750 hrs/mes)
+- **Fargate**: $0.01 (demo de 10 segundos) - NO EJECUTADO AÚN
+- **GitHub Actions**: $0.00/mes (2000 min gratis)
+
+**Total actual: $0.00/mes** ✅
+
+---
+
+**Última actualización**: December 5, 2025 - Deployment completado
+**Estado**: ✅ Lambda Functions desplegadas y funcionales | ⏳ Fargate pendiente de demo
