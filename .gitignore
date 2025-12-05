@@ -16,6 +16,13 @@ ENV/
 .env
 .env.local
 
+# Credentials and sensitive files
+RDS-CREDENTIALS.md
+*-credentials.md
+*-trust-policy.json
+*.pem
+*.key
+
 # OS
 .DS_Store
 Thumbs.db
