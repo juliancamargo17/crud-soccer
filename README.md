@@ -21,11 +21,11 @@ Sistema de gestión de fútbol con arquitectura de microservicios desplegado en 
 - **Mangum** - Adapter para ejecutar FastAPI en AWS Lambda
 
 ### Infraestructura
-- **AWS Lambda** - Serverless compute (función por servicio)
-- **AWS Fargate** - Contenedores ECS sin servidor
-- **Amazon RDS** - PostgreSQL managed database
-- **GitHub Container Registry (GHCR)** - Registry de imágenes Docker
-- **GitHub Actions** - CI/CD automatizado
+- **AWS Lambda** - Serverless compute (6 funciones desplegadas)
+- **Amazon ECR** - Container registry para Lambda images
+- **Amazon RDS** - PostgreSQL managed database (Free Tier)
+- **GitHub Container Registry (GHCR)** - Registry de imágenes Fargate
+- **GitHub Actions** - CI/CD automatizado (dual pipeline)
 
 ### Contenedores
 - **Docker** - Containerización de servicios
@@ -72,36 +72,48 @@ docker-compose up -d
 
 ## 🌩️ Deployment en AWS
 
-### Documentación Completa
-Ver [DEPLOYMENT-GUIDE-GHCR.md](DEPLOYMENT-GUIDE-GHCR.md) para instrucciones paso a paso.
+### ✅ Estado Actual: DESPLEGADO Y FUNCIONAL
 
-### Resumen
-1. **GitHub Actions** construye imágenes Docker automáticamente
-2. **GHCR** almacena las imágenes (gratis ilimitado)
-3. **Lambda** ejecuta contenedores desde GHCR (serverless)
-4. **Fargate** opción alternativa para contenedores ECS
-5. **RDS PostgreSQL** base de datos compartida (Free Tier)
+**Endpoints de producción:** Ver [AWS-ENDPOINTS.md](AWS-ENDPOINTS.md)
 
-### Costos Estimados
-- GitHub Container Registry: **$0.00** (público ilimitado)
-- GitHub Actions: **$0.00** (2000 min/mes gratis)
-- AWS Lambda: **$0.00** (1M requests/mes gratis)
-- AWS Fargate: **$0.01** (demo de 10 segundos)
-- Amazon RDS: **$0.00** (Free Tier 750 hrs/mes)
+### Arquitectura de Deployment
+1. **GitHub Actions** - Construye imágenes automáticamente en cada push
+2. **Dual Pipeline**:
+   - Job 1: Imágenes Fargate → GHCR (demo)
+   - Job 2: Imágenes Lambda → Amazon ECR (producción)
+3. **AWS Lambda** - 6 funciones con Function URLs públicas
+4. **Amazon ECR** - Almacena imágenes Lambda (~480 MB total)
+5. **Amazon RDS** - PostgreSQL compartido (crud-soccer-db)
 
-**Total: ~$0.01/mes** 💰
+### 💰 Costos Reales
+- **Lambda**: $0.00/mes (Free Tier - 1M requests)
+- **ECR**: $0.00/mes (480 MB < 500 MB Free Tier)
+- **GHCR**: $0.00/mes (ilimitado para públicos)
+- **RDS**: $0.00/mes (Free Tier - 750 hrs/mes)
+- **GitHub Actions**: $0.00/mes (2000 min/mes gratis)
+
+**Total actual: $0.00/mes** ✅
 
 ## 🔄 CI/CD Pipeline
 
 ```
-Push a main → GitHub Actions → Build → GHCR → AWS Lambda
+Push a main → GitHub Actions
+                    ↓
+        ┌───────────┴───────────┐
+        ↓                       ↓
+   Build Fargate          Build Lambda
+        ↓                       ↓
+      GHCR                    ECR
+        ↓                       ↓
+    (demo)              AWS Lambda (prod)
 ```
 
 ### Workflow automático:
-1. Detecta cambios en cada servicio
-2. Construye imagen Docker
-3. Pushea a GHCR (`ghcr.io/juliancamargo17/crud-soccer-{service}:latest`)
-4. Lambda usa la nueva imagen automáticamente
+1. **Trigger**: Push a rama `main` o ejecución manual
+2. **Job Fargate**: Construye 6 imágenes → GHCR (públicas)
+3. **Job Lambda**: Construye 6 imágenes → ECR (para Lambda)
+4. **Deployment**: Lambda usa imágenes de ECR automáticamente
+5. **Secrets**: AWS credentials y DB password desde GitHub Secrets
 
 ## 📚 API Endpoints
 
@@ -119,14 +131,15 @@ Cada servicio expone:
 ```
 crud-soccer/
 ├── .github/workflows/
-│   └── deploy-ghcr.yml          # CI/CD pipeline
+│   └── deploy-ghcr.yml          # CI/CD dual pipeline (GHCR + ECR)
 ├── classEquipo/                  # Servicio Equipos
 │   ├── app/
 │   │   ├── lambda_handler.py    # Handler para Lambda
 │   │   ├── main.py              # FastAPI app
 │   │   ├── routes/
 │   │   └── schemas/
-│   ├── Dockerfile
+│   ├── Dockerfile               # Para Fargate/local
+│   ├── Dockerfile.lambda        # Para AWS Lambda
 │   └── requirements.txt
 ├── estadio/                      # Servicio Estadios
 ├── dt/                           # Servicio DTs
@@ -137,8 +150,10 @@ crud-soccer/
 │   └── database.py              # Configuración DB
 ├── models/
 │   └── models.py                # SQLModel models
-├── docker-compose.yml           # Local development
-├── DEPLOYMENT-GUIDE-GHCR.md     # Guía de deployment
+├── .gitignore                   # Seguridad (credentials)
+├── AWS-ENDPOINTS.md             # URLs de producción
+├── docker-compose.yml           # Desarrollo local
+├── nginx.conf                   # Proxy config
 └── README.md
 ```
 
@@ -146,15 +161,24 @@ crud-soccer/
 
 ### Healthcheck
 ```bash
-curl https://your-lambda-url/health
+curl https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/health
+# Respuesta: {"status":"healthy","service":"equipos"}
+```
+
+### Swagger UI
+Accede a la documentación interactiva:
+```
+https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/docs
 ```
 
 ### Crear equipo
 ```bash
-curl -X POST "https://your-lambda-url/equipos/" \
+curl -X POST "https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/equipos/" \
   -H "Content-Type: application/json" \
-  -d '{"nombre": "Real Madrid", "ciudad": "Madrid"}'
+  -d '{"nombre": "Real Madrid", "pais": "España", "ciudad": "Madrid", "fundacion": 1902}'
 ```
+
+**Ver todas las URLs:** [AWS-ENDPOINTS.md](AWS-ENDPOINTS.md)
 
 ## 🤝 Contribuir
 
