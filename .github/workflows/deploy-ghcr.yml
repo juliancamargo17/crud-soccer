@@ -75,8 +75,8 @@ jobs:
           echo "📦 Repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service.name }}"
           echo "🏷️  Tags: latest"
 
-  build-and-push-lambda:
-    name: Build Lambda Images
+  build-and-push-lambda-to-ecr:
+    name: Build Lambda Images and Push to ECR
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -108,34 +108,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
       
-      - name: Extract metadata for Docker
-        id: meta-lambda
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service.name }}-lambda
-          tags: |
-            type=raw,value=latest
-            type=sha,prefix={{branch}}-
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
       
-      - name: Build and push Docker image (Lambda)
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ${{ matrix.service.dockerfile }}
-          push: true
-          tags: ${{ steps.meta-lambda.outputs.tags }}
-          labels: ${{ steps.meta-lambda.outputs.labels }}
+      - name: Create ECR repository if not exists
+        run: |
+          aws ecr describe-repositories --repository-names crud-soccer/${{ matrix.service.name }}-lambda || \
+          aws ecr create-repository --repository-name crud-soccer/${{ matrix.service.name }}-lambda
+      
+      - name: Build and push Docker image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: crud-soccer/${{ matrix.service.name }}-lambda
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ${{ matrix.service.dockerfile }} .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       
       - name: Image summary
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: crud-soccer/${{ matrix.service.name }}-lambda
         run: |
-          echo "✅ Lambda image pushed successfully!"
-          echo "📦 Repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service.name }}-lambda"
-          echo "🏷️  Tags: latest"
+          echo "✅ Lambda image pushed successfully to ECR!"
+          echo "📦 Repository: $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "🏷️  Tag: latest"
           echo "🚀 Ready for AWS Lambda deployment!"
