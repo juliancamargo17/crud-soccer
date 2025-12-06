@@ -85,6 +85,30 @@ docker-compose up -d
 4. **Amazon ECR** - Almacena imágenes Lambda (~480 MB total)
 5. **Amazon RDS** - PostgreSQL compartido (crud-soccer-db)
 
+### 🛠️ Infrastructure as Code
+
+Scripts automatizados para provisionar y gestionar infraestructura:
+
+```bash
+# Crear RDS PostgreSQL
+cd infra/scripts
+./create-rds.sh
+
+# Desplegar servicio en Fargate (demo)
+./deploy-fargate.sh estadios
+
+# Limpiar recursos temporales
+./cleanup.sh
+```
+
+**Documentación completa:** [infra/scripts/README.md](infra/scripts/README.md)
+
+**¿Por qué scripts bash?**
+- ✅ Reproducibles - Cualquiera puede replicar la infraestructura
+- ✅ Versionados - Infrastructure as Code en git
+- ✅ Transparentes - Comandos AWS CLI literales
+- ✅ Documentación ejecutable - No puede quedar desactualizada
+
 ### 💰 Costos Reales
 - **Lambda**: $0.00/mes (Free Tier - 1M requests)
 - **ECR**: $0.00/mes (480 MB < 500 MB Free Tier)
@@ -132,6 +156,14 @@ Cada servicio expone:
 crud-soccer/
 ├── .github/workflows/
 │   └── deploy-ghcr.yml          # CI/CD dual pipeline (GHCR + ECR)
+├── infra/                        # Infrastructure as Code
+│   ├── scripts/
+│   │   ├── create-rds.sh        # Script para crear RDS PostgreSQL
+│   │   ├── deploy-fargate.sh    # Script para desplegar en Fargate
+│   │   ├── cleanup.sh           # Script de limpieza de recursos
+│   │   └── README.md            # Documentación de scripts
+│   └── task/
+│       └── fargate-task-definition.json  # Configuración Fargate
 ├── classEquipo/                  # Servicio Equipos
 │   ├── app/
 │   │   ├── lambda_handler.py    # Handler para Lambda
