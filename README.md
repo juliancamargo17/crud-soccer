@@ -63,12 +63,12 @@ docker-compose up -d
 ```
 
 ### 4. Acceder a servicios
-- Equipos: http://localhost:8001/docs
-- Estadios: http://localhost:8002/docs
-- DTs: http://localhost:8003/docs
-- Jugadores: http://localhost:8004/docs
-- Participaciones: http://localhost:8005/docs
-- Torneos: http://localhost:8006/docs
+- Equipos: http://localhost/equipo/docs
+- Estadios: http://localhost/estadio/docs
+- DTs: http://localhost/dt/docs
+- Jugadores: http://localhost/jugador/docs
+- Participaciones: http://localhost/participacion/docs
+- Torneos: http://localhost/torneo/docs
 
 ## Deployment en AWS
 
