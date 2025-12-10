@@ -10,16 +10,14 @@
 #   - VPC
 #
 # Solo detiene tareas activas de Fargate para evitar cargos
-#
-# Autor: Julian Camargo
-# Fecha: Diciembre 2025
+
 
 set -e  # Detener ejecución si hay error
 
 CLUSTER_NAME="crud-soccer-cluster"
 REGION="us-east-1"
 
-echo "🧹 Limpiando recursos de AWS"
+echo "Limpiando recursos de AWS"
 echo "================================================"
 echo "   - Cluster: $CLUSTER_NAME"
 echo "   - Región: $REGION"
@@ -31,13 +29,13 @@ if ! aws ecs describe-clusters \
     --region $REGION \
     --query 'clusters[0].status' \
     --output text 2>/dev/null | grep -q "ACTIVE"; then
-    echo "ℹ️  Cluster '$CLUSTER_NAME' no existe o no está activo"
-    echo "✅ Nada que limpiar"
+    echo "Cluster '$CLUSTER_NAME' no existe o no está activo"
+    echo "Nada que limpiar"
     exit 0
 fi
 
 # Listar tareas en ejecución
-echo "🔍 Buscando tareas en ejecución..."
+echo "Buscando tareas en ejecución..."
 TASKS=$(aws ecs list-tasks \
   --cluster $CLUSTER_NAME \
   --desired-status RUNNING \
@@ -46,21 +44,21 @@ TASKS=$(aws ecs list-tasks \
   --region $REGION)
 
 if [ -z "$TASKS" ]; then
-    echo "ℹ️  No hay tareas en ejecución en el cluster"
-    echo "✅ Nada que limpiar"
+    echo "No hay tareas en ejecución en el cluster"
+    echo "Nada que limpiar"
     exit 0
 fi
 
 # Contar tareas
 TASK_COUNT=$(echo "$TASKS" | wc -w)
-echo "📋 Encontradas $TASK_COUNT tarea(s) en ejecución"
+echo "Encontradas $TASK_COUNT tarea(s) en ejecución"
 echo ""
 
 # Detener cada tarea
 STOPPED=0
 for task in $TASKS; do
     TASK_ID=$(basename $task)
-    echo "⏹️  Deteniendo tarea: $TASK_ID"
+    echo "Deteniendo tarea: $TASK_ID"
     
     if aws ecs stop-task \
         --cluster $CLUSTER_NAME \
@@ -68,36 +66,36 @@ for task in $TASKS; do
         --reason "Detenida por script de limpieza" \
         --region $REGION \
         --output text > /dev/null 2>&1; then
-        echo "   ✅ Tarea detenida exitosamente"
+        echo "Tarea detenida exitosamente"
         ((STOPPED++))
     else
-        echo "   ⚠️  Error al detener tarea (puede que ya esté detenida)"
+        echo "Error al detener tarea (puede que ya esté detenida)"
     fi
     echo ""
 done
 
 echo "================================================"
-echo "✅ LIMPIEZA COMPLETADA"
+echo "LIMPIEZA COMPLETADA"
 echo "================================================"
-echo "📊 Resumen:"
-echo "   - Tareas encontradas: $TASK_COUNT"
-echo "   - Tareas detenidas:   $STOPPED"
+echo "Resumen:"
+echo "- Tareas encontradas: $TASK_COUNT"
+echo "- Tareas detenidas:   $STOPPED"
 echo ""
-echo "ℹ️  Recursos NO eliminados (requieren acción manual):"
-echo "   - RDS: crud-soccer-db (para eliminar, ver abajo)"
-echo "   - Lambda functions (6 funciones activas)"
-echo "   - ECR repositories (imágenes Docker)"
-echo "   - ECS Cluster: $CLUSTER_NAME"
-echo "   - CloudWatch Log Groups"
+echo "Recursos NO eliminados (requieren acción manual):"
+echo "- RDS: crud-soccer-db (para eliminar, ver abajo)"
+echo "- Lambda functions (6 funciones activas)"
+echo "- ECR repositories (imágenes Docker)"
+echo "- ECS Cluster: $CLUSTER_NAME"
+echo "- CloudWatch Log Groups"
 echo ""
-echo "💡 Para eliminar RDS manualmente (¡CUIDADO! Esto borra datos):"
-echo "   aws rds delete-db-instance \\"
-echo "     --db-instance-identifier crud-soccer-db \\"
-echo "     --skip-final-snapshot \\"
-echo "     --region $REGION"
+echo "Para eliminar RDS manualmente (¡CUIDADO! Esto borra datos):"
+echo "aws rds delete-db-instance \\"
+echo "--db-instance-identifier crud-soccer-db \\"
+echo "--skip-final-snapshot \\"
+echo "--region $REGION"
 echo ""
-echo "💡 Para eliminar ECS Cluster (solo si no hay tareas):"
-echo "   aws ecs delete-cluster \\"
-echo "     --cluster $CLUSTER_NAME \\"
-echo "     --region $REGION"
+echo "Para eliminar ECS Cluster (solo si no hay tareas):"
+echo "aws ecs delete-cluster \\"
+echo "--cluster $CLUSTER_NAME \\"
+echo "--region $REGION"
 echo "================================================"

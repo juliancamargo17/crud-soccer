@@ -1,18 +1,18 @@
-# ⚽ CRUD Soccer - Microservices Architecture
+# CRUD Soccer - Microservices Architecture
 
 Sistema de gestión de fútbol con arquitectura de microservicios desplegado en AWS Lambda y Fargate usando GitHub Container Registry.
 
-## 🏗️ Arquitectura
+## Arquitectura
 
 **6 Microservicios independientes:**
-- 🏟️ **Equipos** - Gestión de equipos de fútbol
-- 🏢 **Estadios** - Administración de estadios
-- 👔 **DTs** - Directores técnicos
-- ⚽ **Jugadores** - Gestión de jugadores
-- 📊 **Participaciones** - Participaciones en torneos
-- 🏆 **Torneos** - Administración de torneos
+- **Equipos** - Gestión de equipos de fútbol
+- **Estadios** - Administración de estadios
+- **DTs** - Directores técnicos
+- **Jugadores** - Gestión de jugadores
+- **Participaciones** - Participaciones en torneos
+- **Torneos** - Administración de torneos
 
-## 🚀 Stack Tecnológico
+## Stack Tecnológico
 
 ### Backend
 - **FastAPI** - Framework web moderno y rápido
@@ -31,7 +31,7 @@ Sistema de gestión de fútbol con arquitectura de microservicios desplegado en 
 - **Docker** - Containerización de servicios
 - **Multi-stage builds** - Optimización de imágenes
 
-## 📋 Prerequisitos
+## Prerequisitos
 
 - Python 3.11+
 - Docker
@@ -39,7 +39,7 @@ Sistema de gestión de fútbol con arquitectura de microservicios desplegado en 
 - Cuenta GitHub
 - Cuenta AWS (Free Tier)
 
-## 🔧 Configuración Local
+## Configuración Local
 
 ### 1. Clonar repositorio
 ```bash
@@ -70,9 +70,9 @@ docker-compose up -d
 - Participaciones: http://localhost:8005/docs
 - Torneos: http://localhost:8006/docs
 
-## 🌩️ Deployment en AWS
+## Deployment en AWS
 
-### ✅ Estado Actual: DESPLEGADO Y FUNCIONAL
+### Estado Actual: DESPLEGADO Y FUNCIONAL
 
 **Endpoints de producción:** Ver [AWS-ENDPOINTS.md](AWS-ENDPOINTS.md)
 
@@ -85,7 +85,7 @@ docker-compose up -d
 4. **Amazon ECR** - Almacena imágenes Lambda (~480 MB total)
 5. **Amazon RDS** - PostgreSQL compartido (crud-soccer-db)
 
-### 🛠️ Infrastructure as Code
+### Infrastructure as Code
 
 Scripts automatizados para provisionar y gestionar infraestructura:
 
@@ -104,21 +104,21 @@ cd infra/scripts
 **Documentación completa:** [infra/scripts/README.md](infra/scripts/README.md)
 
 **¿Por qué scripts bash?**
-- ✅ Reproducibles - Cualquiera puede replicar la infraestructura
-- ✅ Versionados - Infrastructure as Code en git
-- ✅ Transparentes - Comandos AWS CLI literales
-- ✅ Documentación ejecutable - No puede quedar desactualizada
+- Reproducibles - Cualquiera puede replicar la infraestructura
+- Versionados - Infrastructure as Code en git
+- Transparentes - Comandos AWS CLI literales
+- Documentación ejecutable - No puede quedar desactualizada
 
-### 💰 Costos Reales
+### Costos Reales
 - **Lambda**: $0.00/mes (Free Tier - 1M requests)
 - **ECR**: $0.00/mes (480 MB < 500 MB Free Tier)
 - **GHCR**: $0.00/mes (ilimitado para públicos)
 - **RDS**: $0.00/mes (Free Tier - 750 hrs/mes)
 - **GitHub Actions**: $0.00/mes (2000 min/mes gratis)
 
-**Total actual: $0.00/mes** ✅
+**Total actual: $0.00/mes** 
 
-## 🔄 CI/CD Pipeline
+## CI/CD Pipeline
 
 ```
 Push a main → GitHub Actions
@@ -129,7 +129,7 @@ Push a main → GitHub Actions
         ↓                       ↓
       GHCR                    ECR
         ↓                       ↓
-    (demo)              AWS Lambda (prod)
+      demo                  AWS Lambda
 ```
 
 ### Workflow automático:
@@ -139,7 +139,7 @@ Push a main → GitHub Actions
 4. **Deployment**: Lambda usa imágenes de ECR automáticamente
 5. **Secrets**: AWS credentials y DB password desde GitHub Secrets
 
-## 📚 API Endpoints
+## API Endpoints
 
 Cada servicio expone:
 - `GET /health` - Healthcheck
@@ -150,7 +150,7 @@ Cada servicio expone:
 - `PUT /{resource}/{id}` - Actualizar
 - `DELETE /{resource}/{id}` - Eliminar
 
-## 🏗️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 crud-soccer/
@@ -189,7 +189,7 @@ crud-soccer/
 └── README.md
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Healthcheck
 ```bash
@@ -202,41 +202,4 @@ Accede a la documentación interactiva:
 ```
 https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/docs
 ```
-
-### Crear equipo
-```bash
-curl -X POST "https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/equipos/" \
-  -H "Content-Type: application/json" \
-  -d '{"nombre": "Real Madrid", "pais": "España", "ciudad": "Madrid", "fundacion": 1902}'
-```
-
 **Ver todas las URLs:** [AWS-ENDPOINTS.md](AWS-ENDPOINTS.md)
-
-## 🤝 Contribuir
-
-1. Fork el proyecto
-2. Crea tu feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la branch (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📝 Licencia
-
-Este proyecto es open source y está disponible bajo la [MIT License](LICENSE).
-
-## 👤 Autor
-
-**Julian Camargo**
-- GitHub: [@juliancamargo17](https://github.com/juliancamargo17)
-- Email: juliancamargo17@gmail.com
-
-## 🙏 Agradecimientos
-
-- FastAPI por el excelente framework
-- AWS por los servicios en la nube
-- GitHub por GHCR y Actions gratuitos
-- SQLModel por el ORM moderno
-
----
-
-⭐ Si este proyecto te ayudó, dale una estrella en GitHub!
