@@ -2,9 +2,9 @@
 
 Scripts automatizados para gestionar la infraestructura de AWS del proyecto CRUD Soccer.
 
-## 📋 Prerequisitos
+## Prerequisitos
 
-Antes de ejecutar estos scripts, asegúrate de tener:
+Antes de ejecutar estos scripts:
 
 1. **AWS CLI instalado y configurado**
    ```bash
@@ -27,7 +27,7 @@ Antes de ejecutar estos scripts, asegúrate de tener:
    - ID: `sg-0f2f2b8096fe2a87b`
    - Reglas de entrada: Puerto 5432 (PostgreSQL), Puerto 8000 (FastAPI)
 
-## 🚀 Scripts Disponibles
+## Scripts Disponibles
 
 ### 1. `create-rds.sh` - Crear RDS PostgreSQL
 
@@ -41,26 +41,26 @@ chmod +x create-rds.sh
 ```
 
 **¿Qué hace?**
-- ✅ Crea instancia RDS db.t3.micro (Free Tier)
-- ✅ Configura PostgreSQL 16.3
-- ✅ Asigna 20GB de storage SSD
-- ✅ Habilita acceso público
-- ✅ Espera hasta que esté disponible
-- ✅ Muestra el endpoint y connection string
+- Crea instancia RDS db.t3.micro (Free Tier)
+- Configura PostgreSQL 16.3
+- Asigna 20GB de storage SSD
+- Habilita acceso público
+- Espera hasta que esté disponible
+- Muestra el endpoint y connection string
 
 **Tiempo de ejecución:** 5-10 minutos
 
 **Output esperado:**
 ```
-🚀 Creando RDS PostgreSQL para CRUD Soccer...
+Creando RDS PostgreSQL para CRUD Soccer...
 ================================================
-📋 Configuración:
+Configuración:
    - Identificador: crud-soccer-db
    - Tipo: db.t3.micro (Free Tier)
    ...
-✅ RDS disponible y listo para usar!
+RDS disponible y listo para usar!
 ================================================
-📌 Información de conexión:
+Información de conexión:
 ================================================
 Endpoint: crud-soccer-db.XXXXXXX.us-east-1.rds.amazonaws.com
 Puerto:   5432
@@ -68,7 +68,7 @@ Usuario:  postgres
 Password: REDACTED
 ```
 
-**⚠️ Nota:** Si el RDS ya existe, el script abortará para evitar duplicados.
+** Nota:** Si el RDS ya existe, el script abortará para evitar duplicados.
 
 ---
 
@@ -97,33 +97,33 @@ chmod +x deploy-fargate.sh
 ```
 
 **¿Qué hace?**
-1. ✅ Crea ECS Cluster (si no existe)
-2. ✅ Configura CloudWatch Log Group
-3. ✅ Registra Task Definition
-4. ✅ Obtiene subnet de la VPC
-5. ✅ Ejecuta tarea en Fargate con IP pública
-6. ✅ Muestra IP y endpoints disponibles
+1. Crea ECS Cluster (si no existe)
+2. Configura CloudWatch Log Group
+3. Registra Task Definition
+4. Obtiene subnet de la VPC
+5. Ejecuta tarea en Fargate con IP pública
+6. Muestra IP y endpoints disponibles
 
 **Tiempo de ejecución:** 1-2 minutos
 
 **Output esperado:**
 ```
-✅ DESPLIEGUE EXITOSO
+DESPLIEGUE EXITOSO
 ================================================
-📌 Servicio:    estadios
-📌 IP Pública:  3.85.XXX.XXX
+Servicio:    estadios
+IP Pública:  3.85.XXX.XXX
 
-🌐 Endpoints disponibles:
+Endpoints disponibles:
    - Health:  http://3.85.XXX.XXX:8000/health
    - Docs:    http://3.85.XXX.XXX:8000/docs
    - API:     http://3.85.XXX.XXX:8000/estadios
 
-⚠️  IMPORTANTE: Esta tarea cobra ~$0.045/hora
+IMPORTANTE: Esta tarea cobra ~$0.045/hora
 ```
 
-**💰 Costo:** ~$0.045/hora (~$0.0125 por 10 segundos de demo)
+**Costo:** ~$0.045/hora (~$0.0125 por 10 segundos de demo)
 
-**⚠️ IMPORTANTE:** Detén la tarea después de la demo para evitar cargos:
+**IMPORTANTE:** Se debe detener la tarea después de la demo para evitar cargos:
 ```bash
 aws ecs stop-task --cluster crud-soccer-cluster --task <TASK_ARN> --region us-east-1
 ```
@@ -144,35 +144,35 @@ chmod +x cleanup.sh
 ```
 
 **¿Qué hace?**
-- ✅ Lista todas las tareas en ejecución en el cluster
-- ✅ Detiene cada tarea automáticamente
-- ✅ Muestra resumen de tareas detenidas
+- Lista todas las tareas en ejecución en el cluster
+- Detiene cada tarea automáticamente
+- Muestra resumen de tareas detenidas
 
 **¿Qué NO hace?** (Por seguridad, estos recursos requieren eliminación manual)
-- ❌ NO elimina RDS (contiene datos)
-- ❌ NO elimina Lambda functions
-- ❌ NO elimina imágenes ECR
-- ❌ NO elimina Security Groups
-- ❌ NO elimina VPC
+- NO elimina RDS (contiene datos)
+- NO elimina Lambda functions
+- NO elimina imágenes ECR
+- NO elimina Security Groups
+- NO elimina VPC
 
 **Output esperado:**
 ```
-🧹 Limpiando recursos de AWS
+Limpiando recursos de AWS
 ================================================
-📋 Encontradas 1 tarea(s) en ejecución
+Encontradas 1 tarea(s) en ejecución
 
-⏹️  Deteniendo tarea: abc123def456
-   ✅ Tarea detenida exitosamente
+Deteniendo tarea: abc123def456
+   Tarea detenida exitosamente
 
-✅ LIMPIEZA COMPLETADA
-📊 Resumen:
+LIMPIEZA COMPLETADA
+Resumen:
    - Tareas encontradas: 1
    - Tareas detenidas:   1
 ```
 
 ---
 
-## 📊 Flujo de trabajo típico
+## Flujo de trabajo típico
 
 ### Demo rápida de Fargate (10 segundos, $0.01)
 
@@ -211,7 +211,7 @@ chmod +x cleanup.sh
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Error: "An error occurred (DBInstanceAlreadyExists)"
 **Causa:** El RDS ya existe  
@@ -237,14 +237,14 @@ aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-04f29f21da938f7cc" --
 
 ### La IP pública no responde después de deploy
 **Causa:** La tarea está iniciando (puede tomar 30-60 segundos)  
-**Solución:** Espera 1-2 minutos y verifica logs:
+**Solución:** Esperar 1-2 minutos y verifica logs:
 ```bash
 aws logs tail /ecs/crud-soccer-estadios --follow --region us-east-1
 ```
 
 ---
 
-## 🏗️ Arquitectura de scripts
+## Arquitectura de scripts
 
 ```
 infra/scripts/
@@ -259,45 +259,31 @@ infra/task/
 
 ---
 
-## 💡 Best Practices
+## Best Practices
 
-1. **Siempre ejecuta `cleanup.sh` después de demos de Fargate**
+1. **Siempre ejecutar `cleanup.sh` después de demos de Fargate**
    - Fargate cobra por segundo (~$0.045/hora)
    - Un olvido de 24 horas = ~$1.08
 
-2. **No elimines RDS accidentalmente**
+2. **No eliminar RDS accidentalmente**
    - Contiene tus datos
    - No tiene backups configurados (para ahorrar $)
    - Eliminación es irreversible
 
-3. **Mantén las credenciales seguras**
+3. **Mantener las credenciales seguras**
    - No commitees `REDACTED` en código
    - Usa GitHub Secrets para CI/CD
-   - En producción usa AWS Secrets Manager
+   - En producción se debe usar AWS Secrets Manager
 
-4. **Documenta cambios en task definitions**
-   - Si modificas `fargate-task-definition.json`, documenta el cambio
+4. **Documentar cambios en task definitions**
+   - Si se modifica `fargate-task-definition.json`, documenta el cambio
    - Incrementa la revisión manualmente en el nombre
 
----
 
-## 📚 Recursos adicionales
+## Recursos adicionales
 
 - [AWS CLI Reference - RDS](https://docs.aws.amazon.com/cli/latest/reference/rds/)
 - [AWS CLI Reference - ECS](https://docs.aws.amazon.com/cli/latest/reference/ecs/)
 - [AWS Fargate Pricing](https://aws.amazon.com/fargate/pricing/)
 - [Documentación del proyecto](../../README.md)
 - [Endpoints desplegados](../../AWS-ENDPOINTS.md)
-
----
-
-## 🤝 Contribución
-
-Si encuentras bugs o mejoras, abre un issue en:
-https://github.com/juliancamargo17/crud-soccer/issues
-
----
-
-**Autor:** Julian Camargo  
-**Fecha:** Diciembre 2025  
-**Licencia:** MIT

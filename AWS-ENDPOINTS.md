@@ -59,19 +59,19 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 
 ---
 
-## Base de datos ✅
+## Base de datos 
 
 ### Amazon RDS PostgreSQL
 - **Endpoint**: `crud-soccer-db.c27m2g066462.us-east-1.rds.amazonaws.com`
 - **Puerto**: `5432`
 - **Database**: `soccer_db`
 - **Usuario**: `postgres`
-- **Contraseña**: `[CONFIGURADO EN SECRETS - REDACTED]`
+- **Contraseña**: `[CONFIGURADO EN SECRETS]`
 - **Estado**: Available (Free Tier - db.t3.micro)
 
 ---
 
-## Amazon ECR Repositories ✅
+## Amazon ECR Repositories 
 
 - `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/equipos-lambda:latest`
 - `288761759102.dkr.ecr.us-east-1.amazonaws.com/crud-soccer/estadios-lambda:latest`
@@ -82,7 +82,7 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 
 ---
 
-## GitHub Container Registry (GHCR) ✅
+## GitHub Container Registry (GHCR) 
 
 **Imágenes Fargate (públicas):**
 - `ghcr.io/juliancamargo17/crud-soccer-equipos:latest`
@@ -140,7 +140,7 @@ curl https://[YOUR-LAMBDA-URL].lambda-url.us-east-1.on.aws/health
 
 ---
 
-## 🔄 Actualización de endpoints
+##  Actualización de endpoints
 
 Este archivo se actualizará después de completar el despliegue con las URLs e IPs reales.
 
@@ -189,7 +189,7 @@ AWS Lambda    AWS Fargate    Amazon RDS
 
 ---
 
-## 💰 Costos del Deployment
+## Costos del Deployment
 
 - **Lambda**: $0.00/mes (Free Tier - 1M requests)
 - **ECR**: $0.00/mes (480 MB < 500 MB Free Tier)
@@ -198,9 +198,4 @@ AWS Lambda    AWS Fargate    Amazon RDS
 - **Fargate**: $0.01 (demo de 10 segundos) - NO EJECUTADO AÚN
 - **GitHub Actions**: $0.00/mes (2000 min gratis)
 
-**Total actual: $0.00/mes** ✅
-
----
-
-**Última actualización**: December 5, 2025 - Deployment completado
-**Estado**: ✅ Lambda Functions desplegadas y funcionales | ⏳ Fargate pendiente de demo
+**Total actual: $0.00/mes** 

@@ -71,9 +71,9 @@ jobs:
       
       - name: Image summary
         run: |
-          echo "✅ Fargate image pushed successfully!"
-          echo "📦 Repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service.name }}"
-          echo "🏷️  Tags: latest"
+          echo "Fargate image pushed successfully!"
+          echo "Repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service.name }}"
+          echo "Tags: latest"
 
   build-and-push-lambda-to-ecr:
     name: Build Lambda Images and Push to ECR
@@ -138,7 +138,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: crud-soccer/${{ matrix.service.name }}-lambda
         run: |
-          echo "✅ Lambda image pushed successfully to ECR!"
-          echo "📦 Repository: $ECR_REGISTRY/$ECR_REPOSITORY"
-          echo "🏷️  Tag: latest"
-          echo "🚀 Ready for AWS Lambda deployment!"
+          echo "Lambda image pushed successfully to ECR!"
+          echo "Repository: $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "Tag: latest"
+          echo "Ready for AWS Lambda deployment!"
