@@ -100,46 +100,6 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 - `ghcr.io/juliancamargo17/crud-soccer-participaciones-lambda:latest`
 - `ghcr.io/juliancamargo17/crud-soccer-torneos-lambda:latest`
 
----
-
-## Ejemplos de uso
-
-### Lambda - GET todos los equipos
-```bash
-curl https://[YOUR-LAMBDA-URL].lambda-url.us-east-1.on.aws/
-```
-
-### Lambda - POST crear equipo
-```bash
-curl -X POST https://[YOUR-LAMBDA-URL].lambda-url.us-east-1.on.aws/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Real Madrid",
-    "pais": "España",
-    "ciudad": "Madrid",
-    "fundacion": 1902,
-    "estadio_id": null
-  }'
-```
-
-### Fargate - GET todos los equipos
-```bash
-curl http://[YOUR-FARGATE-IP]:8000/
-```
-
-### Fargate - Acceder a Swagger UI
-```
-http://[YOUR-FARGATE-IP]:8000/docs
-```
-
-### Healthcheck
-```bash
-curl https://[YOUR-LAMBDA-URL].lambda-url.us-east-1.on.aws/health
-# Respuesta: {"status":"healthy","service":"equipos"}
-```
-
----
-
 ##  Actualización de endpoints
 
 Este archivo se actualizará después de completar el despliegue con las URLs e IPs reales.
