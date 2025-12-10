@@ -38,26 +38,6 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 - **Swagger**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/health`
 
----
-
-## AWS Fargate (ECS Services)
-
-### Equipos
-- **URL**: `http://[IP-PENDING]:8000/`
-- **Swagger**: `http://[IP-PENDING]:8000/docs`
-- **Health**: `http://[IP-PENDING]:8000/health`
-
-### Jugadores
-- **URL**: `http://[IP-PENDING]:8000/`
-- **Swagger**: `http://[IP-PENDING]:8000/docs`
-- **Health**: `http://[IP-PENDING]:8000/health`
-
-### Torneos
-- **URL**: `http://[IP-PENDING]:8000/`
-- **Swagger**: `http://[IP-PENDING]:8000/docs`
-- **Health**: `http://[IP-PENDING]:8000/health`
-
----
 
 ## Base de datos 
 
@@ -99,10 +79,6 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 - `ghcr.io/juliancamargo17/crud-soccer-jugadores-lambda:latest`
 - `ghcr.io/juliancamargo17/crud-soccer-participaciones-lambda:latest`
 - `ghcr.io/juliancamargo17/crud-soccer-torneos-lambda:latest`
-
-##  Actualización de endpoints
-
-Este archivo se actualizará después de completar el despliegue con las URLs e IPs reales.
 
 ### Instrucciones para obtener URLs:
 
