@@ -191,15 +191,22 @@ crud-soccer/
 
 ## Testing
 
-### Healthcheck
+### Lambda Endpoints
 ```bash
+# Healthcheck
 curl https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/health
 # Respuesta: {"status":"healthy","service":"equipos"}
-```
 
-### Swagger UI
-Accede a la documentación interactiva:
-```
+# Swagger UI
 https://ffgrl6q2fgdzl4rl7wb5exzbcq0wqaus.lambda-url.us-east-1.on.aws/docs
 ```
+
+### Fargate Endpoints (Demo)
+```bash
+# Estadios en Fargate
+# Health: http://3.87.126.10:8000/health
+# Swagger: http://3.87.126.10:8000/docs
+# API: http://3.87.126.10:8000/estadios/
+```
+
 **Ver todas las URLs:** [AWS-ENDPOINTS.md](AWS-ENDPOINTS.md)

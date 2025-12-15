@@ -38,6 +38,23 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 - **Swagger**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/docs`
 - **Health**: `https://ccbcul3ezi7r42szipbmmfqpfm0hjrnf.lambda-url.us-east-1.on.aws/health`
 
+---
+
+## AWS Fargate (ECS - Demo)
+
+### Estadios
+- **IP Pública**: `3.87.126.10`
+- **Puerto**: `8000`
+- **Health**: `http://3.87.126.10:8000/health`
+- **Swagger**: `http://3.87.126.10:8000/docs`
+- **API**: `http://3.87.126.10:8000/estadios/`
+- **Estado**: Desplegado (14 dic 2025)
+- **Cluster**: `crud-soccer-cluster`
+- **Task Definition**: `crud-soccer-estadios-task:1`
+
+**Nota**: La IP pública puede cambiar si se reinicia el servicio. Para obtener la IP actual, consultar la consola ECS → Cluster → Service → Tasks → Public IP.
+
+---
 
 ## Base de datos 
 
@@ -128,10 +145,11 @@ AWS Lambda    AWS Fargate    Amazon RDS
 ## Costos del Deployment
 
 - **Lambda**: $0.00/mes (Free Tier - 1M requests)
-- **ECR**: $0.00/mes (480 MB < 500 MB Free Tier)
+- **ECR**: $0.15/mes (almacenamiento de imágenes)
 - **GHCR**: $0.00/mes (ilimitado para públicos)
-- **RDS**: $0.00/mes (Free Tier - 750 hrs/mes)
-- **Fargate**: $0.01 (demo de 10 segundos) - NO EJECUTADO AÚN
+- **RDS**: $0.00/mes (DETENIDA - solo cargos cuando está activa)
+- **Fargate**: $0.00/mes (SERVICIO ELIMINADO - solo cargos cuando está activo)
+- **VPC**: ~$0.10/mes (data transfer mínimo)
 - **GitHub Actions**: $0.00/mes (2000 min gratis)
 
-**Total actual: $0.00/mes** 
+**Total actual: ~$0.25/mes** (con RDS y Fargate detenidos) 
