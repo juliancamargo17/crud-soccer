@@ -37,7 +37,7 @@ class DT(SQLModel, table=True):
     edad: int = Field()
 
     # FK opcional al equipo (un DT puede no estar asignado)
-    equipo_id: Optional[int] = Field(default=None, foreign_key="equipo.id")
+    equipo_id: Optional[int] = Field(default=None, foreign_key="equipo.id", unique=True)
     equipo: Optional["Equipo"] = Relationship(back_populates="dt")
 
 
