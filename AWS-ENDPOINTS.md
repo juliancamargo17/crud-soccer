@@ -43,12 +43,12 @@ Este documento contiene los endpoints de acceso a los microservicios del CRUD So
 ## AWS Fargate (ECS - Demo)
 
 ### Estadios
-- **IP Pública**: `3.87.126.10`
+- **IP Pública**: `3.238.85.183`
 - **Puerto**: `8000`
-- **Health**: `http://3.87.126.10:8000/health`
-- **Swagger**: `http://3.87.126.10:8000/docs`
-- **API**: `http://3.87.126.10:8000/estadios/`
-- **Estado**: Desplegado (14 dic 2025)
+- **Health**: `http://3.238.85.183:8000/health`
+- **Swagger**: `http://3.238.85.183:8000/docs`
+- **API**: `http://3.238.85.183:8000/estadios/`
+- **Estado**: Desplegado (21 dic 2025)
 - **Cluster**: `crud-soccer-cluster`
 - **Task Definition**: `crud-soccer-estadios-task:1`
 

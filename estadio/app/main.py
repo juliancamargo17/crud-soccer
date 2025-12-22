@@ -1,8 +1,18 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.routes import estadio
 from database.database import create_db_and_tables
 
 app = FastAPI(root_path="/estadio")
+
+# Configurar CORS para permitir requests desde cualquier origen
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todos los orígenes
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Permite todos los headers
+)
 
 create_db_and_tables()
 
