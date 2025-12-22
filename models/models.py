@@ -1,5 +1,6 @@
 from typing import Optional, List
-from sqlmodel import SQLModel, Field, Relationship, UniqueConstraint
+from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy import UniqueConstraint
 from datetime import date
 from enum import Enum
 
