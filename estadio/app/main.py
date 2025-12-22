@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import estadio
 from database.database import create_db_and_tables
+from models import models  # Importar modelos para que SQLModel los registre
 
 root_path = "/estadio" if os.getenv("RUNNING_IN_DOCKER") == "true" else ""
 app = FastAPI(root_path=root_path)
