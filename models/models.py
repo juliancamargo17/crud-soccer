@@ -1,5 +1,5 @@
 from typing import Optional, List
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Relationship, UniqueConstraint
 from datetime import date
 from enum import Enum
 
@@ -17,6 +17,8 @@ class PosicionJugador(str, Enum):
 
 
 class Estadio(SQLModel, table=True):
+    __table_args__ = (UniqueConstraint("nombre", "ciudad", name="uq_estadio_nombre_ciudad"),)
+    
     id: Optional[int] = Field(default=None, primary_key=True)
     nombre: str = Field()
     ciudad: str = Field()
@@ -40,6 +42,8 @@ class DT(SQLModel, table=True):
 
 
 class Equipo(SQLModel, table=True):
+    __table_args__ = (UniqueConstraint("nombre", "pais", name="uq_equipo_nombre_pais"),)
+    
     id: Optional[int] = Field(default=None, primary_key=True)
     nombre: str = Field()
     pais: str = Field()
@@ -92,6 +96,10 @@ class Torneo(SQLModel, table=True):
 
 
 class Participacion(SQLModel, table=True):
+    __table_args__ = (
+        UniqueConstraint("equipo_id", "torneo_id", "año", name="uq_participacion_equipo_torneo_año"),
+    )
+    
     id: Optional[int] = Field(default=None, primary_key=True)
     año: int = Field()
     puntos: int = Field()
