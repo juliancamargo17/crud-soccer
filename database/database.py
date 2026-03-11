@@ -2,10 +2,13 @@ import os
 from sqlmodel import SQLModel, create_engine, Session
 
 DB_HOST = os.environ.get("DB_HOST","postgres")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "123456")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
 DB_USER = os.environ.get("DB_USER", "postgres")
 DB_NAME = os.environ.get("DB_NAME", "postgres")
 DB_PORT = os.environ.get("DB_PORT", "5432")
+
+if not DB_PASSWORD:
+    raise ValueError("DB_PASSWORD no esta configurada. Define la variable de entorno antes de iniciar el servicio.")
 
 DATABASE_URL = f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 

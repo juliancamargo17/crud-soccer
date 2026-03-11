@@ -37,6 +37,7 @@ Crea una instancia de RDS PostgreSQL configurada para el proyecto.
 ```bash
 cd infra/scripts
 chmod +x create-rds.sh
+export DB_PASSWORD="tu_password_segura"
 ./create-rds.sh
 ```
 
@@ -65,14 +66,54 @@ Información de conexión:
 Endpoint: crud-soccer-db.XXXXXXX.us-east-1.rds.amazonaws.com
 Puerto:   5432
 Usuario:  postgres
-Password: REDACTED
+Password: [CONFIGURADO VIA VARIABLE DE ENTORNO]
 ```
 
 ** Nota:** Si el RDS ya existe, el script abortará para evitar duplicados.
 
 ---
 
-### 2. `deploy-fargate.sh` - Desplegar en AWS Fargate
+### 2. `create-db-secret.sh` - Crear/actualizar secreto en Secrets Manager
+
+Guarda la contraseña de base de datos en AWS Secrets Manager sin exponerla en archivos JSON.
+
+**Uso:**
+```bash
+cd infra/scripts
+chmod +x create-db-secret.sh
+export DB_PASSWORD="tu_password_segura"
+./create-db-secret.sh
+```
+
+**¿Qué hace?**
+- Crea el secreto `crud-soccer/db-password` si no existe
+- Si ya existe, actualiza su valor
+- Imprime el ARN del secreto para usarlo en task definitions
+
+**Permiso requerido en ECS:**
+- El rol `ecsTaskExecutionRole` debe tener `secretsmanager:GetSecretValue` sobre el ARN del secreto.
+- Si el secreto usa KMS custom key, agregar tambien `kms:Decrypt`.
+
+---
+
+### 3. `set-task-secret-arn.sh` - Inyectar ARN del secreto en task definitions
+
+Actualiza automáticamente las 6 task definitions de Fargate para usar el ARN real del secreto.
+
+**Uso:**
+```bash
+cd infra/scripts
+chmod +x set-task-secret-arn.sh
+./set-task-secret-arn.sh <SECRET_ARN>
+```
+
+**¿Qué hace?**
+- Reemplaza `REPLACE_WITH_DB_PASSWORD_SECRET_ARN` en `infra/task/fargate-task-*.json`
+- Evita editar JSON manualmente
+
+---
+
+### 4. `deploy-fargate.sh` - Desplegar en AWS Fargate
 
 Despliega un microservicio específico en AWS Fargate usando la imagen de GHCR.
 
@@ -104,6 +145,10 @@ chmod +x deploy-fargate.sh
 5. Ejecuta tarea en Fargate con IP pública
 6. Muestra IP y endpoints disponibles
 
+**Importante de seguridad:**
+- Las task definitions usan `REPLACE_WITH_DB_PASSWORD_SECRET_ARN` como placeholder.
+- Antes de desplegar, ejecuta `set-task-secret-arn.sh` para inyectar un ARN real de Secrets Manager.
+
 **Tiempo de ejecución:** 1-2 minutos
 
 **Output esperado:**
@@ -132,7 +177,7 @@ O usa el script de limpieza (ver abajo).
 
 ---
 
-### 3. `cleanup.sh` - Limpiar recursos temporales
+### 5. `cleanup.sh` - Limpiar recursos temporales
 
 Detiene todas las tareas de Fargate en ejecución para evitar cargos no deseados.
 
@@ -177,14 +222,21 @@ Resumen:
 ### Demo rápida de Fargate (10 segundos, $0.01)
 
 ```bash
-# 1. Desplegar servicio
+# 1. Crear o actualizar secreto en AWS
+export DB_PASSWORD="tu_password_segura"
+./create-db-secret.sh
+
+# 2. Inyectar SECRET_ARN en task definitions
+./set-task-secret-arn.sh <SECRET_ARN>
+
+# 3. Desplegar servicio
 ./deploy-fargate.sh estadios
 
-# 2. Probar endpoints (abre en navegador)
+# 4. Probar endpoints (abre en navegador)
 # http://<IP_PUBLICA>:8000/health
 # http://<IP_PUBLICA>:8000/docs
 
-# 3. Limpiar inmediatamente (después de 10 segundos)
+# 5. Limpiar inmediatamente (después de 10 segundos)
 ./cleanup.sh
 ```
 
@@ -196,15 +248,22 @@ Resumen:
 # 1. Crear RDS (una sola vez)
 ./create-rds.sh
 
-# 2. Esperar 5-10 minutos hasta que esté disponible
+# 2. Crear secreto para DB_PASSWORD
+export DB_PASSWORD="tu_password_segura"
+./create-db-secret.sh
 
-# 3. Actualizar GitHub Secrets con el nuevo endpoint
+# 3. Inyectar ARN del secreto en task definitions
+./set-task-secret-arn.sh <SECRET_ARN>
+
+# 4. Esperar 5-10 minutos hasta que RDS esté disponible
+
+# 5. Actualizar GitHub Secrets con el nuevo endpoint
 # (Ir a: https://github.com/juliancamargo17/crud-soccer/settings/secrets/actions)
 
-# 4. Desplegar Lambda via GitHub Actions
+# 6. Desplegar Lambda via GitHub Actions
 # (Push a main o ejecutar workflow manualmente)
 
-# 5. (Opcional) Demo de Fargate
+# 7. (Opcional) Demo de Fargate
 ./deploy-fargate.sh estadios
 ./cleanup.sh  # Detener después de la demo
 ```
@@ -249,6 +308,8 @@ aws logs tail /ecs/crud-soccer-estadios --follow --region us-east-1
 ```
 infra/scripts/
 ├── create-rds.sh          # Provisión de base de datos
+├── create-db-secret.sh    # Crear/actualizar secreto DB_PASSWORD
+├── set-task-secret-arn.sh # Inyectar ARN del secreto en task definitions
 ├── deploy-fargate.sh      # Despliegue de contenedores
 ├── cleanup.sh             # Limpieza de recursos temporales
 └── README.md             # Esta documentación
@@ -271,7 +332,7 @@ infra/task/
    - Eliminación es irreversible
 
 3. **Mantener las credenciales seguras**
-   - No commitees `REDACTED` en código
+   - No commitees contraseñas reales en codigo
    - Usa GitHub Secrets para CI/CD
    - En producción se debe usar AWS Secrets Manager
 

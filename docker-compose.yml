@@ -27,7 +27,7 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: REDACTED
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
     ports:
       - "5432:5432"  
     volumes:
@@ -50,7 +50,7 @@ services:
       RUNNING_IN_DOCKER: "true"
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: REDACTED
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       DB_NAME: postgres
       DB_PORT: 5432
     depends_on:
@@ -69,7 +69,7 @@ services:
       RUNNING_IN_DOCKER: "true"
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: REDACTED
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       DB_NAME: postgres
       DB_PORT: 5432
     depends_on:
@@ -88,7 +88,7 @@ services:
       RUNNING_IN_DOCKER: "true"
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: REDACTED
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       DB_NAME: postgres
       DB_PORT: 5432
     depends_on:
@@ -107,7 +107,7 @@ services:
       RUNNING_IN_DOCKER: "true"
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: REDACTED
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       DB_NAME: postgres
       DB_PORT: 5432
     depends_on:
@@ -126,7 +126,7 @@ services:
       RUNNING_IN_DOCKER: "true"
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: REDACTED
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       DB_NAME: postgres
       DB_PORT: 5432
     depends_on:
@@ -145,7 +145,7 @@ services:
       RUNNING_IN_DOCKER: "true"
       DB_HOST: postgres
       DB_USER: postgres
-      DB_PASSWORD: REDACTED
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       DB_NAME: postgres
       DB_PORT: 5432
     depends_on:

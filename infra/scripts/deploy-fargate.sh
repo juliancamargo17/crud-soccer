@@ -88,6 +88,17 @@ if [ ! -f "$TASK_DEF_FILE" ]; then
     exit 1
 fi
 
+if grep -q 'REPLACE_WITH_DB_PASSWORD_SECRET_ARN' "$TASK_DEF_FILE"; then
+  echo "Error: La task definition no tiene un ARN real de Secrets Manager."
+  echo "Ejecuta: ./set-task-secret-arn.sh <SECRET_ARN>"
+  exit 1
+fi
+
+if ! grep -q '"secrets"' "$TASK_DEF_FILE"; then
+  echo "Error: La task definition debe usar Secrets Manager para DB_PASSWORD."
+  exit 1
+fi
+
 TASK_REVISION=$(aws ecs register-task-definition \
   --cli-input-json file://$TASK_DEF_FILE \
   --region $REGION \
