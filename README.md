@@ -101,6 +101,13 @@ Scripts automatizados para provisionar y gestionar infraestructura:
 cd infra/scripts
 ./create-rds.sh
 
+# Crear/actualizar secreto de DB en AWS Secrets Manager
+export DB_PASSWORD="tu_password_segura"
+./create-db-secret.sh
+
+# Inyectar ARN del secreto en task definitions
+./set-task-secret-arn.sh <SECRET_ARN>
+
 # Desplegar servicio en Fargate (demo)
 ./deploy-fargate.sh estadios
 
@@ -109,6 +116,8 @@ cd infra/scripts
 ```
 
 **Documentación completa:** [infra/scripts/README.md](infra/scripts/README.md)
+
+**Nota de seguridad:** Las task definitions de Fargate versionadas en git usan el placeholder `REPLACE_WITH_DB_PASSWORD_SECRET_ARN` por diseño. Antes de desplegar, reemplázalo con `set-task-secret-arn.sh`.
 
 **¿Por qué scripts bash?**
 - Reproducibles - Cualquiera puede replicar la infraestructura
@@ -166,11 +175,18 @@ crud-soccer/
 ├── infra/                        # Infrastructure as Code
 │   ├── scripts/
 │   │   ├── create-rds.sh        # Script para crear RDS PostgreSQL
+│   │   ├── create-db-secret.sh  # Script para crear/actualizar secreto en Secrets Manager
+│   │   ├── set-task-secret-arn.sh # Script para inyectar ARN en task definitions
 │   │   ├── deploy-fargate.sh    # Script para desplegar en Fargate
 │   │   ├── cleanup.sh           # Script de limpieza de recursos
 │   │   └── README.md            # Documentación de scripts
 │   └── task/
-│       └── fargate-task-definition.json  # Configuración Fargate
+│       ├── fargate-task-equipos.json
+│       ├── fargate-task-estadios.json
+│       ├── fargate-task-dts.json
+│       ├── fargate-task-jugadores.json
+│       ├── fargate-task-participaciones.json
+│       └── fargate-task-torneos.json
 ├── classEquipo/                  # Servicio Equipos
 │   ├── app/
 │   │   ├── lambda_handler.py    # Handler para Lambda
