@@ -31,6 +31,13 @@ Sistema de gestión de fútbol con arquitectura de microservicios desplegado en 
 - **Docker** - Containerización de servicios
 - **Multi-stage builds** - Optimización de imágenes
 
+## Seguridad y Hardening
+
+- Se eliminaron credenciales hardcodeadas del repositorio y se migró la gestión de contraseñas a **AWS Secrets Manager** para despliegues en **ECS/Fargate**.
+- Se reforzó la configuración para fallar de forma explícita cuando faltan variables sensibles, evitando defaults inseguros en tiempo de ejecución.
+- Se reescribió el historial de Git para purgar secretos previamente expuestos y se aplicó push protegido con `--force-with-lease`.
+- Se añadieron scripts de automatización para crear/actualizar secretos y propagar su ARN a task definitions, reduciendo riesgo operativo y errores manuales.
+
 ## Prerequisitos
 
 - Python 3.11+
